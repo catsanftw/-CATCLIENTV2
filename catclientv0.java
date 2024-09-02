@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,9 +91,20 @@ public class CatClient {
     }
 
     private static void downloadMinecraftLauncher() {
-        JOptionPane.showMessageDialog(null, "Downloading Minecraft launcher...", "Download",
-                JOptionPane.INFORMATION_MESSAGE);
-        // Placeholder for actual download logic
-        // In a real application, you would implement the logic to download the launcher from a URL.
+        // URL to download the Minecraft launcher (Replace this with the actual URL)
+        String launcherUrl = "https://example.com/MinecraftLauncher.jar";
+
+        // Target file to save the launcher
+        File targetFile = new File("MinecraftLauncher.jar");
+
+        try {
+            URL url = new URL(launcherUrl);
+            Files.copy(url.openStream(), targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            JOptionPane.showMessageDialog(null, "Minecraft launcher downloaded successfully.", 
+                                          "Download Complete", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error downloading Minecraft launcher: " + e.getMessage(),
+                    "Download Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
