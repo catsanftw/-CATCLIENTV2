@@ -10,7 +10,7 @@ import java.util.List;
 
 public class CatClient {
 
-    private static final String MINECRAFT_LAUNCH_COMMAND = "java -jar MinecraftLauncher.jar";
+    private static final String GAME_JAR_FILE = "Game.jar"; // Replace with the actual JAR file name
     private static JTextField usernameField;
     private static JCheckBox offlineModeCheckbox;
 
@@ -56,13 +56,13 @@ public class CatClient {
     }
 
     private static void launchGame() {
-        File minecraftLauncher = new File(MINECRAFT_LAUNCH_COMMAND.split(" ")[2]);
-        if (minecraftLauncher.exists()) {
+        File gameJar = new File(GAME_JAR_FILE);
+        if (gameJar.exists()) {
             try {
                 List<String> launchCommand = new ArrayList<>();
                 launchCommand.add("java");
                 launchCommand.add("-jar");
-                launchCommand.add("MinecraftLauncher.jar");
+                launchCommand.add(GAME_JAR_FILE);
 
                 if (isOfflineModeEnabled() && !getUsername().isEmpty()) {
                     launchCommand.add("--username");
@@ -72,13 +72,13 @@ public class CatClient {
                 ProcessBuilder processBuilder = new ProcessBuilder(launchCommand);
                 processBuilder.start();
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "Error launching Minecraft: " + e.getMessage(),
+                JOptionPane.showMessageDialog(null, "Error launching the game: " + e.getMessage(),
                         "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Minecraft launcher not found. Please download it first.",
-                    "Launcher Missing", JOptionPane.WARNING_MESSAGE);
-            downloadMinecraftLauncher();
+            JOptionPane.showMessageDialog(null, "Game JAR file not found. Please download it first.",
+                    "File Missing", JOptionPane.WARNING_MESSAGE);
+            downloadGameJar();
         }
     }
 
@@ -90,20 +90,20 @@ public class CatClient {
         return offlineModeCheckbox.isSelected();
     }
 
-    private static void downloadMinecraftLauncher() {
-        // URL to download the Minecraft launcher (Replace this with the actual URL)
-        String launcherUrl = "https://example.com/MinecraftLauncher.jar";
+    private static void downloadGameJar() {
+        // URL to download the game's JAR file (Replace this with the actual URL)
+        String jarUrl = "https://example.com/Game.jar";  // Replace with the actual URL
 
-        // Target file to save the launcher
-        File targetFile = new File("MinecraftLauncher.jar");
+        // Target file to save the JAR
+        File targetFile = new File(GAME_JAR_FILE);
 
         try {
-            URL url = new URL(launcherUrl);
+            URL url = new URL(jarUrl);
             Files.copy(url.openStream(), targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            JOptionPane.showMessageDialog(null, "Minecraft launcher downloaded successfully.", 
+            JOptionPane.showMessageDialog(null, "Game JAR file downloaded successfully.",
                                           "Download Complete", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error downloading Minecraft launcher: " + e.getMessage(),
+            JOptionPane.showMessageDialog(null, "Error downloading the game JAR file: " + e.getMessage(),
                     "Download Error", JOptionPane.ERROR_MESSAGE);
         }
     }
